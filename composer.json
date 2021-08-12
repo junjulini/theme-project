@@ -1,0 +1,39 @@
+{
+    "name": "junjulini/theme-project",
+    "type": "library",
+    "description": "Theme project based on ZimbruCode Framework",
+    "keywords": [
+        "zc-theme-project",
+        "wordpress",
+        "zimbrucode"
+    ],
+    "homepage": "https://github.com/junjulini/theme-project",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Junjulini",
+            "homepage": "https://junjulini.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.5",
+        "junjulini/zimbrucode": "^1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "{APP-CLASS}\\": "app/"
+        }
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "ZimbruCode\\Component\\Composer\\ScriptHandler::installTheme",
+            "@composer dumpautoload"
+        ],
+        "post-update-cmd": "ZimbruCode\\Component\\Composer\\ScriptHandler::clearVar",
+        "zc-clear-cache": "ZimbruCode\\Component\\Composer\\ScriptHandler::clearCache",
+        "zc-clear-var": "ZimbruCode\\Component\\Composer\\ScriptHandler::clearVar",
+        "zc-new-module": "ZimbruCode\\Component\\Composer\\ScriptHandler::newModule",
+        "zc-new-control": "ZimbruCode\\Component\\Composer\\ScriptHandler::newControl",
+        "zc-mini": "ZimbruCode\\Component\\Composer\\ScriptHandler::minify"
+    }
+}
