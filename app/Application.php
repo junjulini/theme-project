@@ -24,20 +24,20 @@ class Application extends AppKernel
 {
     /**
      * Application setup
-     * @return null
+     * @return void
      * @since {APP-VERSION}
      */
-    protected function setup()
+    protected function setup(): void
     {
         $this->addAction('wp_enqueue_scripts', '__action_enqueue');
     }
 
     /**
      * Action : Enqueue styles & scripts
-     * @return none
+     * @return void
      * @since {APP-VERSION}
      */
-    public function __action_enqueue()
+    public function __action_enqueue(): void
     {
         $this->asset('style.scss', 'script.js');
     }
