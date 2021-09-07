@@ -14,7 +14,7 @@
  *
  * @author  {APP-AUTHOR}
  * @package {APP-NAME}
- * @since   {APP-NAME} {APP-VERSION}
+ * @since   {APP-VERSION}
  */
 class __{APP-CLASS}_Bootstrap
 {
