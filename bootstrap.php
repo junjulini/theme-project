@@ -159,13 +159,13 @@ class __{APP-CLASS}_Bootstrap
 
             // Log
             if ($this->config['log'] && !$this->config['log-directory']) {
-                $logDir = wp_normalize_path(__DIR__ . '/app/Resources/logs');
+                $logDir = wp_normalize_path(__DIR__ . '/app/Resources/var/logs');
 
                 if (wp_mkdir_p($logDir)) {
                     $debugger['logDirectory'] = $logDir;
 
-                    if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false && !file_exists("{$logDir}/.htaccess")) {
-                        file_put_contents("{$logDir}/.htaccess", "Deny From All\n<FilesMatch \"\.(?:html)$\">\n\tAllow From All\n</FilesMatch>");
+                    if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false && !file_exists("{$debugger['logDirectory']}/.htaccess")) {
+                        file_put_contents("{$debugger['logDirectory']}/.htaccess", "Deny From All\n<FilesMatch \"\.(?:html)$\">\n\tAllow From All\n</FilesMatch>");
                     }
 
                     // Check max number of log files
@@ -175,6 +175,9 @@ class __{APP-CLASS}_Bootstrap
 
             call_user_func('ZimbruCode\\Component\\Debug\\DebugController::runTracy', $debugger);
         }
+
+        // Temp folder
+        wp_mkdir_p(__DIR__ . '/app/Resources/var/temp');
 
         // Check file load path
         if (empty($this->config['file-load-path'])) {
