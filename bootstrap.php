@@ -123,7 +123,7 @@ class __{APP-CLASS}_Bootstrap
         // Check filesystem method
         $this->check(
             !$this->checkFilesystemMethod(),
-            esc_html__('The priority of the transport method use for reading, writing, modifying, or deleting files on the filesystem are not "direct". As usual it related with "file owner". Default must be "www-data"', 'zc')
+            esc_html__('The priority of using the transport method to read, write, modify, or delete files in the file system is not "direct". As usual, this has to do with the "file owner". Should be "www-data" by default.', 'zc') . '<br><br>' . esc_attr__('Please reload the page, if this error reappears, contact your hosting provider for assistance.', 'zc')
         );
 
         // Additional checkers
