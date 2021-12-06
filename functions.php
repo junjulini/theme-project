@@ -18,7 +18,7 @@ new __{APP-CLASS}_Bootstrap(array(
     'rpv'            => '7.2.5', // Required PHP version
     'rwv'            => '4.9', // Required WordPress version
     'dev'            => (defined('WP_DEBUG') ? WP_DEBUG : false),
-    'class'          => '{APP-CLASS}\\Application',
+    'class'          => '{APP-CLASS}\Application',
     'class-alias'    => '{APP-CLASS-ALIAS}',
     'file-load-path' => false,
     'session'        => false,

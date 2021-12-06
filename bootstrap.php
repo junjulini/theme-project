@@ -26,7 +26,7 @@ class __{APP-CLASS}_Bootstrap
         'rpv'            => '7.2.5',   // Required PHP version
         'rwv'            => '4.9',     // Required WordPress version
         'dev'            => false,
-        'class'          => 'Project\\Application',
+        'class'          => 'Project\Application',
         'class-alias'    => 'zc',
         'file-load-path' => false,
         'session'        => false,
@@ -173,7 +173,7 @@ class __{APP-CLASS}_Bootstrap
                 }
             }
 
-            call_user_func('ZimbruCode\\Component\\Debug\\DebugController::runTracy', $debugger);
+            call_user_func('ZimbruCode\Component\Debug\DebugController::runTracy', $debugger);
         }
 
         // Temp folder
