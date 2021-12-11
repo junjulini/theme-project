@@ -120,12 +120,6 @@ class __{APP-CLASS}_Bootstrap
             )
         );
 
-        // Check filesystem method
-        $this->check(
-            !$this->checkFilesystemMethod(),
-            esc_html__('The priority of using the transport method to read, write, modify, or delete files in the file system is not "direct". As usual, this has to do with the "file owner". Should be "www-data" by default.', 'zc') . '<br><br>' . esc_attr__('Please reload the page, if this error reappears, contact your hosting provider for assistance.', 'zc')
-        );
-
         // Additional checkers
         if (!empty($this->config['checker-cb']) && is_callable($this->config['checker-cb'])) {
             call_user_func($this->config['checker-cb'], $this);
@@ -165,7 +159,7 @@ class __{APP-CLASS}_Bootstrap
                     $debugger['logDirectory'] = $logDir;
 
                     if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false && !file_exists("{$debugger['logDirectory']}/.htaccess")) {
-                        file_put_contents("{$debugger['logDirectory']}/.htaccess", "Deny From All\n<FilesMatch \"\.(?:html)$\">\n\tAllow From All\n</FilesMatch>");
+                        @file_put_contents("{$debugger['logDirectory']}/.htaccess", "Deny From All\n<FilesMatch \"\.(?:html)$\">\n\tAllow From All\n</FilesMatch>");
                     }
 
                     // Check max number of log files
@@ -207,69 +201,6 @@ class __{APP-CLASS}_Bootstrap
                 'message'   => $message,
             );
         }
-    }
-
-    /**
-     * Determines filesystem method
-     * 
-     * @return boolean  Result
-     * @since 1.0.0
-     */
-    protected function checkFilesystemMethod()
-    {
-        // $uploadDir = wp_get_upload_dir();
-
-        // if (isset($uploadDir['error']) && $uploadDir['error'] === false && $uploadDir['basedir']) {
-        //     $varDir = wp_normalize_path("{$uploadDir['basedir']}/{$this->config['slug']}");
-
-        //     if (wp_mkdir_p($varDir)) {
-        //         $tempFileName = $varDir . '/twt-' . time();
-        //         $tempHandle   = @fopen($tempFileName, 'w');
-
-        //         if ($tempHandle) {
-        //             $thisFileOwner = $tempFileOwner = false;
-        //             if (function_exists('fileowner')) {
-        //                 $thisFileOwner = @fileowner(__FILE__);
-        //                 $tempFileOwner = @fileowner($tempFileName);
-        //             }
-
-        //             @fclose($tempHandle);
-        //             wp_delete_file($tempFileName);
-
-        //             if ($thisFileOwner !== false && $thisFileOwner === $tempFileOwner) {
-        //                 $this->config['var-dir'] = $varDir;
-
-        //                 return true;
-        //             }
-        //         }
-        //     }
-        // }
-
-        $varDir = wp_normalize_path(__DIR__ . '/app/Resources/var');
-
-        if (wp_mkdir_p($varDir)) {
-            $tempFileName = $varDir . '/twt-' . time();
-            $tempHandle   = @fopen($tempFileName, 'w');
-
-            if ($tempHandle) {
-                $thisFileOwner = $tempFileOwner = false;
-                if (function_exists('fileowner')) {
-                    $thisFileOwner = @fileowner(__FILE__);
-                    $tempFileOwner = @fileowner($tempFileName);
-                }
-
-                @fclose($tempHandle);
-                wp_delete_file($tempFileName);
-
-                if ($thisFileOwner !== false && $thisFileOwner === $tempFileOwner) {
-                    $this->config['var-dir'] = $varDir;
-
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     /**
