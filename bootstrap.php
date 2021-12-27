@@ -30,8 +30,8 @@ class __{APP-CLASS}_Bootstrap
         'class-alias'    => 'zc',
         'file-load-path' => false,
         'session'        => false,
-        
-        # Debugger
+
+        // Debugger
         'debug'          => true,
         'email'          => null,
         'log'            => true,
@@ -44,7 +44,7 @@ class __{APP-CLASS}_Bootstrap
         'max-length'     => 150,
         'editor'         => false,
 
-        # Callbacks
+        // Callbacks
         'checker-cb'     => false,
     );
 
@@ -291,6 +291,6 @@ class __{APP-CLASS}_Bootstrap
 if (!class_exists('ZimbruCodeBootstrapException')) {
     class ZimbruCodeBootstrapException extends Exception
     {
-        # exception
+        // Exception
     }
 }

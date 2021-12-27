@@ -23,7 +23,7 @@ new __{APP-CLASS}_Bootstrap(array(
     'file-load-path' => false,
     'session'        => false,
 
-    # Debugger
+    // Debugger
     'debug'          => true,
     'email'          => get_option('admin_email', null),
     'log'            => false,
