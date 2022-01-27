@@ -10,5 +10,5 @@
  */
 
 /**
- * Don't use this file.
+ * Don't use this file
  */

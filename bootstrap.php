@@ -18,8 +18,8 @@
  */
 class __{APP-CLASS}_Bootstrap
 {
-    // App config
-    protected $config = array(
+    // Application default settings
+    protected $settings = array(
         'name'           => 'Project', // Application name
         'slug'           => 'project', // Application slug
         'mode'           => 'theme',   // Application mode
@@ -53,17 +53,23 @@ class __{APP-CLASS}_Bootstrap
 
     public $app;
 
-    public function __construct(array $config = array())
+    /**
+     * Constructor
+     *
+     * @param array $config   Bootstrap config
+     * @since 1.0.0
+     */
+    public function __construct(array $settings = array())
     {
-        if (empty($this->config) || !is_array($this->config)) {
-            throw new ZimbruCodeBootstrapException('Bootstrap : Default configs is not defined.');
+        if (empty($this->settings) || !is_array($this->settings)) {
+            throw new ZimbruCodeBootstrapException('Bootstrap : Default settings not defined');
         }
 
-        $this->config = wp_parse_args($config, $this->config);
+        $this->settings = wp_parse_args($settings, $this->settings);
         $this->condition();
         add_action('after_switch_theme', array($this, '__action_after_switch_theme'));
 
-        if (isset($this->config['dev']) && $this->config['dev'] === true) {
+        if (isset($this->settings['dev']) && $this->settings['dev'] === true) {
             try
             {
                 $this->prepConditions();
@@ -81,6 +87,12 @@ class __{APP-CLASS}_Bootstrap
         $this->setup();
     }
 
+    /**
+     * Prepare conditions
+     *
+     * @return void
+     * @since 1.0.0
+     */
     protected function prepConditions()
     {
         foreach ($this->tasks as $task) {
@@ -91,19 +103,19 @@ class __{APP-CLASS}_Bootstrap
     }
 
     /**
-     * Condition of load
+     * Loading conditions
      * 
-     * @return void   This function does not return a value
+     * @return void
      * @since 1.0.0
      */
     protected function condition()
     {
         // Check PHP Version
         $this->check(
-            !is_php_version_compatible($this->config['rpv']),
+            !is_php_version_compatible($this->settings['rpv']),
             sprintf(
                 esc_html__('Requires at least PHP version "%s" or greater. You are running version "%s". Ask your host to update to a newer PHP version for FREE. For more information you can read on %s and %s', 'zc'),
-                $this->config['rpv'],
+                $this->settings['rpv'],
                 PHP_VERSION,
                 '<a href="https://php.net/supported-versions.php" target="_blank" rel="nofollow noopener noreferrer">'. esc_html__('PHP : Supported Versions', 'zc') .'</a>',
                 '<a href="https://wordpress.org/about/requirements" target="_blank" rel="nofollow noopener noreferrer">'. esc_html__('WordPress : Requirements', 'zc') .'</a>'
@@ -112,24 +124,24 @@ class __{APP-CLASS}_Bootstrap
 
         // Check WordPress Version
         $this->check(
-            !is_wp_version_compatible($this->config['rwv']),
+            !is_wp_version_compatible($this->settings['rwv']),
             sprintf(
                 esc_html__('Requires at least WordPress version "%s". You are running version "%s". Please upgrade and try again.', 'zc'),
-                $this->config['rwv'],
+                $this->settings['rwv'],
                 $GLOBALS['wp_version']
             )
         );
 
         // Additional checkers
-        if (!empty($this->config['checker-cb']) && is_callable($this->config['checker-cb'])) {
-            call_user_func($this->config['checker-cb'], $this);
+        if (!empty($this->settings['checker-cb']) && is_callable($this->settings['checker-cb'])) {
+            call_user_func($this->settings['checker-cb'], $this);
         }
     }
 
     /**
      * Setup application
      * 
-     * @return void   This function does not return a value
+     * @return void
      * @since 1.0.0
      */
     protected function setup()
@@ -138,21 +150,21 @@ class __{APP-CLASS}_Bootstrap
         $composer = require get_template_directory() . '/vendor/autoload.php';
 
         // Debug
-        if ($this->config['debug'] === true) {
+        if ($this->settings['debug'] === true) {
             $debugger = array(
-                'strictMode'   => $this->config['strict-mode'],
-                'showBar'      => $this->config['show-bar'],
-                'logDirectory' => $this->config['log-directory'],
-                'logSeverity'  => $this->config['log-severity'],
-                'email'        => $this->config['email'],
-                'maxDepth'     => $this->config['max-depth'],
-                'maxLength'    => $this->config['max-length'],
-                'dev'          => $this->config['dev'],
-                'editor'       => $this->config['editor'],
+                'strictMode'   => $this->settings['strict-mode'],
+                'showBar'      => $this->settings['show-bar'],
+                'logDirectory' => $this->settings['log-directory'],
+                'logSeverity'  => $this->settings['log-severity'],
+                'email'        => $this->settings['email'],
+                'maxDepth'     => $this->settings['max-depth'],
+                'maxLength'    => $this->settings['max-length'],
+                'dev'          => $this->settings['dev'],
+                'editor'       => $this->settings['editor'],
             );
 
             // Log
-            if ($this->config['log'] && !$this->config['log-directory']) {
+            if ($this->settings['log'] && !$this->settings['log-directory']) {
                 $logDir = wp_normalize_path(__DIR__ . '/app/Resources/var/logs');
 
                 if (wp_mkdir_p($logDir)) {
@@ -174,23 +186,23 @@ class __{APP-CLASS}_Bootstrap
         wp_mkdir_p(__DIR__ . '/app/Resources/var/temp');
 
         // Check file load path
-        if (empty($this->config['file-load-path'])) {
+        if (empty($this->settings['file-load-path'])) {
             $dbt = debug_backtrace();
             $rootPath = isset($dbt[1]['file']) ? $dbt[1]['file'] : false;
         }
 
         // Build application
-        $app = $this->config['class'];
-        $this->app = new $app($this->config['slug'], $this->config['mode'], $this->config['dev'], $rootPath, $this->config['session'], $composer);
-        class_alias($app, $this->config['class-alias']);
+        $app = $this->settings['class'];
+        $this->app = new $app($this->settings['slug'], $this->settings['mode'], $this->settings['dev'], $rootPath, $this->settings['session'], $composer);
+        class_alias($app, $this->settings['class-alias']);
     }
 
     /**
-     * Set condition
+     * Add condition
      * 
      * @param  boolean $condition   Condition : true/false
      * @param  boolean $message     Message of exception
-     * @return void                 This function does not return a value
+     * @return void
      * @since 1.0.0
      */
     public function check($condition = true, $message = false)
@@ -204,17 +216,17 @@ class __{APP-CLASS}_Bootstrap
     }
 
     /**
-     * Delete all log files if is more the "N"
+     * Delete all log files if greater than "N"
      * 
-     * @param  string $dir   Log path
-     * @return void          This function does not return a value
+     * @param  string $dir   Log directory path
+     * @return void
      * @since 1.0.0
      */
     protected function checkLogFilesMaxNumber($dir)
     {
         if ($dir && is_string($dir)) {
             $i = 0;
-            $max = (!empty($this->config['log-max-files']) && is_int($this->config['log-max-files'])) ? $this->config['log-max-files'] : 10;
+            $max = (!empty($this->settings['log-max-files']) && is_int($this->settings['log-max-files'])) ? $this->settings['log-max-files'] : 10;
 
             if ($handle = @opendir($dir)) {
                 while (($file = @readdir($handle)) !== false){
@@ -247,7 +259,7 @@ class __{APP-CLASS}_Bootstrap
     /**
      * Action : Processes after switch theme
      * 
-     * @return void   This function does not return a value
+     * @return void
      * @since 1.0.0
      */
     public function __action_after_switch_theme()
@@ -264,25 +276,25 @@ class __{APP-CLASS}_Bootstrap
                 unset($_GET['activated']);
             }
 
-            // Add a message for unsuccessful theme switch.
+            // Add message about failed theme switch
             add_action('admin_notices', array($this, '__action_admin_notices'));
         }
     }
 
     /**
-     * Action : Add a message for unsuccessful theme switch
+     * Action : Add message about failed theme switch
      * 
-     * @return void   This function does not return a value
+     * @return void
      * @since 1.0.0
      */
     public function __action_admin_notices()
     {
-        printf('<div class="error"><p>%s</p></div>', $this->config['name'] . ' ' . esc_html__('Error', 'zc') . ' : ' . $this->message);
+        printf('<div class="error"><p>%s</p></div>', $this->settings['name'] . ' ' . esc_html__('Error', 'zc') . ' : ' . $this->message);
     }
 }
 
 /**
- * Class : Bootstrap Exception
+ * Class : Bootstrap exception
  *
  * @author  Junjulini
  * @package ZimbruCode
