@@ -182,9 +182,6 @@ class __{APP-CLASS}_Bootstrap
             call_user_func('ZimbruCode\Component\Debug\DebugController::runTracy', $debugger);
         }
 
-        // Temp folder
-        wp_mkdir_p(__DIR__ . '/app/Resources/var/temp');
-
         // Check file load path
         if (empty($this->settings['file-load-path'])) {
             $dbt = debug_backtrace();
