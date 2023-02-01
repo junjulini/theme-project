@@ -267,7 +267,9 @@ class __{APP-CLASS}_Bootstrap
         } catch (ZimbruCodeBootstrapException $e) {
             $this->message = $e->getMessage();
 
-            switch_theme(WP_DEFAULT_THEME, WP_DEFAULT_THEME);
+            if (defined('WP_DEFAULT_THEME')) {
+                switch_theme(WP_DEFAULT_THEME, WP_DEFAULT_THEME);
+            }
 
             if (isset($_GET['activated'])) {
                 unset($_GET['activated']);
