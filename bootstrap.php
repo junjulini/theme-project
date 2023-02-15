@@ -57,9 +57,10 @@ class __{APP-CLASS}_Bootstrap
      * Constructor
      *
      * @param array $config   Bootstrap config
+     * @throws ZimbruCodeBootstrapException
      * @since 1.0.0
      */
-    public function __construct(array $settings = array())
+    public function __construct($settings = array())
     {
         if (empty($this->settings) || !is_array($this->settings)) {
             throw new ZimbruCodeBootstrapException('Bootstrap : Default settings not defined');
@@ -90,6 +91,7 @@ class __{APP-CLASS}_Bootstrap
     /**
      * Prepare conditions
      *
+     * @throws ZimbruCodeBootstrapException
      * @return void
      * @since 1.0.0
      */
@@ -197,8 +199,8 @@ class __{APP-CLASS}_Bootstrap
     /**
      * Add condition
      * 
-     * @param  boolean $condition   Condition : true/false
-     * @param  boolean $message     Message of exception
+     * @param mixed $condition   Condition : true/false
+     * @param mixed $message     Message of exception
      * @return void
      * @since 1.0.0
      */
@@ -215,7 +217,7 @@ class __{APP-CLASS}_Bootstrap
     /**
      * Delete all log files if greater than "N"
      * 
-     * @param  string $dir   Log directory path
+     * @param mixed $dir   Log directory path
      * @return void
      * @since 1.0.0
      */
