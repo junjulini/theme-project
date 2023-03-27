@@ -166,12 +166,20 @@ class __{APP-CLASS}_Bootstrap
             );
 
             // Log
-            if ($this->settings['log'] && !$this->settings['log-directory']) {
-                $logDir = wp_normalize_path(__DIR__ . '/app/Resources/var/logs');
+            if ($this->settings['log']) {
+                if (defined('ZC_LOG_DIR_WP_UPLOAD_STATUS') && ZC_LOG_DIR_WP_UPLOAD_STATUS === true) {
+                    $uploadDir = wp_get_upload_dir();
 
-                if (wp_mkdir_p($logDir)) {
-                    $debugger['logDirectory'] = $logDir;
+                    if (isset($uploadDir['error']) && $uploadDir['error'] === false && $uploadDir['basedir']) {
+                        $debugger['logDirectory'] = wp_normalize_path("{$uploadDir['basedir']}/{$this->settings['slug']}/logs");
+                    } else {
+                        $debugger['logDirectory'] = wp_normalize_path(__DIR__ . '/app/Resources/var/logs');
+                    }
+                } else if (!$this->settings['log-directory']) {
+                    $debugger['logDirectory'] = wp_normalize_path(__DIR__ . '/app/Resources/var/logs');
+                }
 
+                if (wp_mkdir_p($debugger['logDirectory'])) {
                     if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false && !file_exists("{$debugger['logDirectory']}/.htaccess")) {
                         @file_put_contents("{$debugger['logDirectory']}/.htaccess", "Deny From All\n<FilesMatch \"\.(?:html)$\">\n\tAllow From All\n</FilesMatch>");
                     }
