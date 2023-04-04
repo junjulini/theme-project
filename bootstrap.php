@@ -180,7 +180,7 @@ class __{APP-CLASS}_Bootstrap
                 }
 
                 if (wp_mkdir_p($debugger['logDirectory'])) {
-                    if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false && !file_exists("{$debugger['logDirectory']}/.htaccess")) {
+                    if (!file_exists("{$debugger['logDirectory']}/.htaccess")) {
                         @file_put_contents("{$debugger['logDirectory']}/.htaccess", "Deny From All\n<FilesMatch \"\.(?:html)$\">\n\tAllow From All\n</FilesMatch>");
                     }
 
