@@ -23,7 +23,7 @@ class __{APP-CLASS}_Bootstrap
         'name'           => 'Project', // Application name
         'slug'           => 'project', // Application slug
         'mode'           => 'theme',   // Application mode
-        'rpv'            => '7.2.5',   // Required PHP version
+        'rpv'            => '7.4',     // Required PHP version
         'rwv'            => '4.9',     // Required WordPress version
         'dev'            => false,
         'class'          => 'Project\Application',
