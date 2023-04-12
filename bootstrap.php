@@ -20,32 +20,33 @@ class __{APP-CLASS}_Bootstrap
 {
     // Application default settings
     protected $settings = array(
-        'name'           => 'Project', // Application name
-        'slug'           => 'project', // Application slug
-        'mode'           => 'theme',   // Application mode
-        'rpv'            => '7.4',     // Required PHP version
-        'rwv'            => '4.9',     // Required WordPress version
-        'dev'            => false,
-        'class'          => 'Project\Application',
-        'class-alias'    => 'zc',
-        'file-load-path' => false,
-        'session'        => false,
+        'name'                     => 'Project', // Application name
+        'slug'                     => 'project', // Application slug
+        'mode'                     => 'theme',   // Application mode
+        'rpv'                      => '7.4',     // Required PHP version
+        'rwv'                      => '4.9',     // Required WordPress version
+        'dev'                      => false,
+        'class'                    => 'Project\Application',
+        'class-alias'              => 'zc',
+        'file-load-path'           => false,
+        'session'                  => false,
 
         // Debugger
-        'debug'          => true,
-        'email'          => null,
-        'log'            => true,
-        'log-directory'  => false,
-        'log-severity'   => 0,
-        'log-max-files'  => 10,
-        'strict-mode'    => false,
-        'show-bar'       => true,
-        'max-depth'      => 4,
-        'max-length'     => 150,
-        'editor'         => false,
+        'debug'                    => true,
+        'email'                    => null,
+        'log'                      => true,
+        'log-directory'            => false,
+        'log-severity'             => 0,
+        'log-disable-e-deprecated' => false,
+        'log-max-files'            => 10,
+        'strict-mode'              => false,
+        'show-bar'                 => true,
+        'max-depth'                => 4,
+        'max-length'               => 150,
+        'editor'                   => false,
 
         // Callbacks
-        'checker-cb'     => false,
+        'checker-cb'               => false,
     );
 
     protected $tasks   = array();
@@ -154,15 +155,16 @@ class __{APP-CLASS}_Bootstrap
         // Debug
         if ($this->settings['debug'] === true) {
             $debugger = array(
-                'strictMode'   => $this->settings['strict-mode'],
-                'showBar'      => $this->settings['show-bar'],
-                'logDirectory' => $this->settings['log-directory'],
-                'logSeverity'  => $this->settings['log-severity'],
-                'email'        => $this->settings['email'],
-                'maxDepth'     => $this->settings['max-depth'],
-                'maxLength'    => $this->settings['max-length'],
-                'dev'          => $this->settings['dev'],
-                'editor'       => $this->settings['editor'],
+                'strictMode'            => $this->settings['strict-mode'],
+                'showBar'               => $this->settings['show-bar'],
+                'logDirectory'          => $this->settings['log-directory'],
+                'logSeverity'           => $this->settings['log-severity'],
+                'logDisableEDeprecated' => $this->settings['log-disable-e-deprecated'],
+                'email'                 => $this->settings['email'],
+                'maxDepth'              => $this->settings['max-depth'],
+                'maxLength'             => $this->settings['max-length'],
+                'dev'                   => $this->settings['dev'],
+                'editor'                => $this->settings['editor'],
             );
 
             // Log
