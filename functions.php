@@ -15,8 +15,8 @@ new __{APP-CLASS}_Bootstrap(array(
     'name'           => '{APP-NAME}', // Application name
     'slug'           => '{APP-SLUG}', // Application slug
     'mode'           => 'theme', // Application mode
-    'rpv'            => '7.4', // Required PHP version
-    'rwv'            => '5.6', // Required WordPress version
+    'rpv'            => '8.1', // Required PHP version
+    'rwv'            => '6.5', // Required WordPress version
     'dev'            => (defined('WP_DEBUG') ? WP_DEBUG : false),
     'class'          => '{APP-CLASS}\Application',
     'class-alias'    => '{APP-CLASS-ALIAS}',
